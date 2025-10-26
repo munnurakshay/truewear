@@ -1,0 +1,4 @@
+web3>=7.14.0
+py-solc-x>=2.0.4
+python-dotenv>=1.0.1
+qrcode>=7.3.1

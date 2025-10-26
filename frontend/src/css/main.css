@@ -1,0 +1,150 @@
+/* --- 1. Root Variables & Reset --- */
+:root {
+    /* Light Theme Defaults */
+    --clr-primary: #4a5dff; /* Blue */
+    --clr-primary-dark: #3b4be6;
+    --clr-text-main: #202020;
+    --clr-text-secondary: #6b7280;
+    --clr-bg-main: #f5f7fa; /* Light Gray Background */
+    --clr-bg-card: #ffffff;
+    --clr-border: #e5e7eb;
+
+    /* Status Colors */
+    --clr-success: #10b981; /* Green */
+    --clr-danger: #ef4444; /* Red */
+    --clr-pending: #f59e0b; /* Amber */
+
+    /* Layout */
+    --sidebar-width: 250px;
+    --sidebar-width-collapsed: 80px;
+    --header-height: 70px;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* Dark Mode Overrides */
+html[data-theme='dark'] {
+    --clr-primary: #7c3aed; /* Purple */
+    --clr-primary-dark: #6d28d9;
+    --clr-text-main: #f8fafc;
+    --clr-text-secondary: #9ca3af;
+    --clr-bg-main: #111827; /* Dark Blue/Gray Background */
+    --clr-bg-card: #1f2937;
+    --clr-border: #374151;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--clr-bg-main);
+    color: var(--clr-text-main);
+    transition: background-color 0.3s, color 0.3s;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Reusable Components */
+.card {
+    background-color: var(--clr-bg-card);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s;
+    border: 1px solid var(--clr-border);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--clr-primary);
+}
+
+.primary-btn {
+    background-color: var(--clr-primary);
+    color: var(--clr-bg-card);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.primary-btn:hover {
+    background-color: var(--clr-primary-dark);
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+/* --- Theme Switcher Styling --- */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    width: 60px;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider {
+    background-color: var(--clr-border);
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: 0.4s;
+}
+
+.slider:before {
+    background-color: var(--clr-bg-card);
+    bottom: 4px;
+    content: "";
+    height: 22px;
+    left: 4px;
+    position: absolute;
+    transition: 0.4s;
+    width: 22px;
+}
+
+input:checked + .slider {
+    background-color: var(--clr-primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(30px);
+}
+
+.slider.round {
+    border-radius: 30px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

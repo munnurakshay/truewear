@@ -1,0 +1,521 @@
+/* ==================================================================== */
+/* 1. LAYOUT AND COMPONENT STYLES (from dashboard.css)                    */
+/* ==================================================================== */
+
+/* --- Layout Structure --- */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Sidebar --- */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--clr-bg-card);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    box-shadow: var(--shadow-md);
+    transition: width 0.3s ease;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-width-collapsed);
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 0 20px 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--clr-border);
+}
+
+.sidebar-header i {
+    font-size: 24px;
+    color: var(--clr-primary);
+    margin-right: 10px;
+}
+
+.sidebar.collapsed .sidebar-header h2 {
+    opacity: 0;
+    width: 0;
+    transition: opacity 0.2s;
+}
+.sidebar-header h2 {
+    font-size: 1.5rem;
+    color: var(--clr-text-main);
+    white-space: nowrap;
+}
+
+.sidebar-nav {
+    flex-grow: 1;
+    padding: 0 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    color: var(--clr-text-secondary);
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.nav-item i {
+    font-size: 18px;
+    width: 30px;
+    text-align: center;
+}
+
+.nav-item span {
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .nav-item span {
+    opacity: 0;
+    width: 0;
+    margin-left: -5px;
+}
+
+.nav-item:hover {
+    background-color: var(--clr-bg-main);
+    color: var(--clr-primary);
+}
+
+.nav-item.active {
+    background-color: var(--clr-primary);
+    color: var(--clr-bg-card);
+    box-shadow: var(--shadow-sm);
+}
+
+.wallet-btn {
+    width: 100%;
+    margin-top: 15px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#wallet-status.connected {
+    color: var(--clr-success);
+    font-weight: 600;
+}
+#wallet-status.disconnected {
+    color: var(--clr-danger);
+    font-weight: 600;
+}
+#wallet-status.pending {
+    color: var(--clr-pending);
+    font-weight: 600;
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--clr-border);
+    margin: 15px 10px;
+}
+
+.sidebar-footer {
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid var(--clr-border);
+}
+
+.sidebar-toggle-btn {
+    background: var(--clr-bg-main);
+    color: var(--clr-text-secondary);
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-toggle-btn i {
+    transform: rotate(180deg);
+}
+
+/* --- Main Content --- */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+/* Main Header */
+.main-header {
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.main-header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-icon {
+    font-size: 36px;
+    color: var(--clr-text-secondary);
+}
+
+/* --- Content View Management --- */
+.content-view {
+    display: none; /* Hide all views by default */
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.content-view.active {
+    display: flex; /* Show the active view */
+}
+
+/* Helper Class for padding in placeholder cards */
+.p-40 {
+    padding: 40px;
+}
+
+/* --- Verification View Components --- */
+.scan-widget-container {
+    margin-bottom: 30px;
+}
+
+.scan-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+}
+
+.scan-card .icon-bg {
+    font-size: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--clr-primary);
+    color: var(--clr-bg-card);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.scan-input-group {
+    display: flex;
+    flex-grow: 1;
+    gap: 15px;
+}
+
+#product-id-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--clr-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--clr-bg-main);
+    color: var(--clr-text-main);
+    transition: border-color 0.2s;
+}
+
+#product-id-input:focus {
+    outline: none;
+    border-color: var(--clr-primary);
+}
+
+/* --- Results Area (Grid Layout) --- */
+.results-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: auto 1fr; 
+    gap: 25px;
+    flex-grow: 1;
+}
+
+.status-card {
+    grid-column: 1 / 2;
+}
+
+.detail-card {
+    grid-column: 2 / 3;
+}
+
+.timeline-card {
+    grid-column: 1 / 3; 
+    display: flex;
+    flex-direction: column;
+}
+
+.status-message {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.status-message.verified {
+    color: var(--clr-success);
+}
+.status-message.fake {
+    color: var(--clr-danger);
+}
+.status-message.pending {
+    color: var(--clr-pending);
+}
+
+.small-text {
+    font-size: 0.85rem;
+    color: var(--clr-text-secondary);
+}
+
+#product-details-list {
+    list-style: none;
+}
+
+#product-details-list li {
+    padding: 5px 0;
+    color: var(--clr-text-main);
+    font-weight: 500;
+}
+#product-details-list span {
+    font-weight: 400;
+    color: var(--clr-text-secondary);
+    word-break: break-all;
+}
+
+/* NEW QR Code Placeholder Style */
+.qr-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    border: 2px dashed var(--clr-border);
+    border-radius: 8px;
+    background-color: var(--clr-bg-main);
+    color: var(--clr-text-secondary);
+    font-size: 1rem;
+    padding: 10px;
+}
+.qr-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 5px;
+    color: var(--clr-primary);
+}
+
+
+/* --- Ship Product Form Styles --- */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--clr-text-main);
+}
+
+.form-group input, #map-product-select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid var(--clr-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--clr-bg-main);
+    color: var(--clr-text-main);
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--clr-primary);
+}
+
+#shipment-status-area p {
+    padding: 5px 0;
+}
+
+
+/* --- Timeline Styling --- */
+.timeline {
+    padding: 20px 0;
+    position: relative;
+    flex-grow: 1;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--clr-border);
+}
+
+.timeline-item {
+    position: relative;
+    margin-left: 50px;
+    padding-bottom: 30px;
+}
+
+.timeline-item-icon {
+    position: absolute;
+    left: -38px;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--clr-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 0 0 4px var(--clr-bg-card); 
+}
+
+.timeline-item-content {
+    background-color: var(--clr-bg-main);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.timeline-item-date {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--clr-primary);
+    margin-bottom: 5px;
+}
+
+.timeline-item-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.placeholder-text {
+    text-align: center;
+    color: var(--clr-text-secondary);
+    padding-top: 50px;
+}
+
+/* --- TRACING MAP VIEW STYLES (Interactive Map) --- */
+
+.tracing-map-container {
+    display: grid;
+    grid-template-columns: 300px 1fr; /* Controls on left, map on right */
+    gap: 25px;
+    flex-grow: 1;
+}
+
+.map-controls {
+    height: fit-content;
+}
+
+.map-display-card {
+    display: flex;
+    flex-direction: column;
+    padding: 10px; 
+}
+
+/* Leaflet container styles */
+#map-container {
+    flex-grow: 1;
+    z-index: 1; /* Essential for Leaflet map interaction */
+    border-radius: 8px; /* Match card styling */
+}
+
+/* Initial state/placeholder styles */
+#map-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    height: 100%;
+    min-height: 400px;
+    background-color: #f0f0f0; 
+    border-radius: 12px;
+    padding: 20px;
+}
+html[data-theme='dark'] #map-placeholder {
+    background-color: #2b3a50;
+}
+
+#map-initial-state .map-icon {
+    font-size: 4rem;
+    color: var(--clr-primary-light);
+    margin-bottom: 10px;
+}
+
+/* Summary Box */
+.route-summary {
+    margin-top: 15px;
+    padding: 15px; 
+    background-color: var(--clr-bg-card);
+    border: 1px solid var(--clr-border);
+    border-radius: 8px;
+    color: var(--clr-text-main);
+    width: 100%; 
+    max-height: 150px;
+    overflow-y: auto; 
+}
+.route-summary ol {
+    padding-left: 20px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+.route-summary h4 {
+    margin-bottom: 5px;
+}
+
+
+/* --- Responsiveness --- */
+@media (max-width: 1024px) {
+    .results-area {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+    .status-card, .detail-card, .timeline-card {
+        grid-column: 1 / 2;
+    }
+    .tracing-map-container {
+        grid-template-columns: 1fr; /* Stack controls and map vertically */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 20px 15px;
+    }
+    .sidebar {
+        width: var(--sidebar-width-collapsed);
+    }
+    .sidebar-header h2 {
+        display: none;
+    }
+    .sidebar-footer {
+        display: none;
+    }
+    .scan-input-group {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,34 @@
+[
+    {
+        "timestamp": "2025-10-25 13:53:04 UTC",
+        "product_id": "TW001",
+        "delivery_info": {
+            "recipient": "Alice",
+            "address": "123 Street, City"
+        },
+        "replacement_info": {
+            "replacement_due": false
+        },
+        "tx_hash": "e2196731fb455a3b48c75e1096d07406eadb95cdcce32cbbc7d63d2aff703420",
+        "block_number": 9487557,
+        "status": "Success"
+    },
+    {
+        "timestamp": "2025-10-25 17:13:24 UTC",
+        "product_id": "P20251025171315",
+        "delivery_info": {
+            "recipient": "Akshay",
+            "address": "BITS",
+            "timestamp": "2025-10-25 17:13:24 UTC"
+        },
+        "replacement_info": {
+            "status": "None",
+            "timestamp": ""
+        },
+        "tx_hash": "0aaa652117cf113ca213ca2cf5148b1ba54cd1780cf1efaec833d128d1a3a32d",
+        "block_number": 9488557,
+        "status": "Success",
+        "etherscan_link": "https://sepolia.etherscan.io/tx/0aaa652117cf113ca213ca2cf5148b1ba54cd1780cf1efaec833d128d1a3a32d",
+        "qr_code_file": "P20251025171315_qrcode.png"
+    }
+]

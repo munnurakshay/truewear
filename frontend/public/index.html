@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truewear Dashboard | Product Traceability</title>
+    <link rel="stylesheet" href="../src/css/main.css">
+    <link rel="stylesheet" href="../src/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-barcode"></i>
+                <h2>Truewear</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="verification-link">
+                    <i class="fas fa-shield-alt"></i> <span>Verification</span>
+                </a>
+                <a href="#" class="nav-item" id="ship-product-link">
+                    <i class="fas fa-shipping-fast"></i> <span>Ship Product</span>
+                </a>
+                <a href="#" class="nav-item" id="trace-journey-link">
+                    <i class="fas fa-route"></i> <span>Trace Journey</span>
+                </a>
+                
+                <div class="divider"></div>
+                
+                <button id="connect-wallet-btn" class="nav-item wallet-btn">
+                     <i class="fas fa-wallet"></i> <span id="wallet-status" class="pending">Connect Wallet</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                 <button id="sidebar-toggle" class="sidebar-toggle-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <section class="content-view active" id="view-verification">
+                <header class="main-header">
+                    <h1>Product Verification</h1>
+                    <div class="header-actions">
+                        <div class="theme-switch-wrapper">
+                            <label class="theme-switch" for="checkbox" title="Toggle Dark/Light Mode">
+                                <input type="checkbox" id="checkbox" />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                        <div class="user-profile">
+                            <i class="fas fa-user-circle profile-icon"></i>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="scan-widget-container">
+                    <div class="card scan-card">
+                        <i class="fas fa-qrcode icon-bg"></i>
+                        <div class="scan-input-group">
+                            <input type="text" id="product-id-input" placeholder="Enter Product ID (e.g., P20251025202605)" value="P20251025202605">
+                            <button id="verify-btn" class="primary-btn">Verify Authenticity</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="results-area">
+                    <div class="card status-card">
+                        <h4 class="card-title"><i class="fas fa-check-circle"></i> Authenticity Status</h4>
+                        <p id="auth-status" class="status-message pending">Awaiting verification...</p>
+                        <p id="contract-address-display" class="small-text">Contract: N/A</p>
+                    </div>
+                    <div class="card detail-card">
+                        <h4 class="card-title">Transaction Details & QR Code</h4>
+                        <ul id="product-details-list">
+                            <li><strong>Recipient:</strong> <span id="detail-recipient">N/A</span></li>
+                            <li><strong>Recipient Address:</strong> <span id="detail-owner-addr">N/A</span></li>
+                            <li><strong>Tx Hash:</strong> <span id="detail-tx-hash">N/A</span></li>
+                        </ul>
+                        <div id="qr-code-placeholder" class="qr-placeholder mt-20">
+                            <i class="fas fa-qrcode"></i> QR Code Placeholder
+                        </div>
+                    </div>
+                    <div class="card large-card timeline-card">
+                        <h4 class="card-title">Full Product Journey Timeline</h4>
+                        <div id="timeline-container" class="timeline">
+                            <p class="placeholder-text">Enter a product ID and click Verify to see the immutable journey.</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <section class="content-view" id="view-ship-product">
+                <header class="main-header">
+                    <h1>Ship Product & Log Transaction 📦</h1>
+                    <div class="header-actions">
+                        <div class="theme-switch-wrapper">
+                            <label class="theme-switch" for="checkbox" title="Toggle Dark/Light Mode">
+                                <input type="checkbox" id="checkbox" />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                        <div class="user-profile">
+                            <i class="fas fa-user-circle profile-icon"></i>
+                        </div>
+                    </div>
+                </header>
+                <div class="card large-card p-40">
+                    <h4 class="card-title">Enter Shipment Details</h4>
+                    
+                    <div class="form-group">
+                        <label for="ship-id-input">Product ID to Ship:</label>
+                        <input type="text" id="ship-id-input" placeholder="e.g., P20251025202605" value="P_NEW_SHIPMENT">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name">Recipient Name:</label>
+                        <input type="text" id="recipient-name" placeholder="Jane Smith">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location-input">Delivery Location (City/Address for Geocoding):</label>
+                        <input type="text" id="location-input" placeholder="e.g., New York, NY">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-address">Recipient Wallet Address (for Contract):</label>
+                        <input type="text" id="recipient-address" placeholder="0xabc... (Wallet Address)">
+                    </div>
+
+                    <button id="submit-shipment-btn" class="primary-btn mt-20">Submit Transaction to Testnet</button>
+                    
+                    <div id="shipment-status-area" class="mt-20">
+                        <p id="shipment-status" class="small-text pending">Ready for input.</p>
+                        <p id="transaction-hash-display" class="small-text"></p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-view" id="view-trace-journey">
+                <header class="main-header">
+                    <h1>Product Tracing Map 🗺️</h1>
+                    <div class="header-actions">
+                        <div class="theme-switch-wrapper">
+                            <label class="theme-switch" for="checkbox" title="Toggle Dark/Light Mode">
+                                <input type="checkbox" id="checkbox" />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                        <div class="user-profile">
+                            <i class="fas fa-user-circle profile-icon"></i>
+                        </div>
+                    </div>
+                </header>
+                
+                <div class="tracing-map-container">
+                    <div class="card map-controls">
+                        <h4 class="card-title">Select Product to Trace</h4>
+                        <div class="form-group">
+                            <label for="map-product-select">Select ID (from log):</label>
+                            <select id="map-product-select">
+                                <option value="">--- Select a Product ID ---</option>
+                                </select>
+                        </div>
+                        
+                        <div id="map-trace-info" class="mt-20 small-text">
+                            <p>Select a product above to load its journey path and view details.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card map-display-card">
+                        <div id="map-container" style="height: 100%; min-height: 500px;">
+                            </div>
+                        <div id="map-route-summary" class="route-summary"></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="../src/js/ui_interact.js"></script>
+    <script src="../src/js/web3_config.js"></script>
+    <script src="../src/js/dashboard.js"></script>
+</body>
+</html>
